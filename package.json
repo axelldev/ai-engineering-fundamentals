@@ -1,0 +1,19 @@
+{
+  "name": "ai-engineering-fundamentals",
+  "module": "index.ts",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "start": "vite"
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "vite": "^8.0.9"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  },
+  "dependencies": {
+    "openai": "^6.34.0"
+  }
+}
