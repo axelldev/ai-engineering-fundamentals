@@ -15,8 +15,17 @@ const promptInput =
   document.querySelector<HTMLTextAreaElement>("[data-prompt]");
 const responseOutput = document.querySelector<HTMLElement>("[data-response]");
 const statusOutput = document.querySelector<HTMLElement>("[data-status]");
+const finishReason = document.querySelector<HTMLElement>(
+  "[data-finish-reason]",
+);
 
-if (!form || !promptInput || !responseOutput || !statusOutput) {
+if (
+  !form ||
+  !promptInput ||
+  !responseOutput ||
+  !statusOutput ||
+  !finishReason
+) {
   throw new Error("The app UI could not be initialized.");
 }
 
@@ -38,6 +47,7 @@ form.addEventListener("submit", async (event) => {
 
   setStatus("Making AI request...");
   responseOutput.textContent = "";
+  finishReason.textContent = "";
 
   try {
     const response = await openai.chat.completions.create({
@@ -46,10 +56,13 @@ form.addEventListener("submit", async (event) => {
       max_completion_tokens: 256,
     });
 
-    const content =
-      response.choices[0]?.message.content ?? "No response text was returned.";
+    const choice = response.choices[0];
 
+    const content = choice?.message.content ?? "No response text was returned.";
     responseOutput.textContent = content;
+    finishReason.textContent =
+      choice?.finish_reason ?? "No finish reason returned.";
+
     setStatus("Request completed.");
   } catch (error) {
     if (
