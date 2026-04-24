@@ -11,7 +11,8 @@ const openai = new OpenAI({
 });
 
 const form = document.querySelector<HTMLFormElement>("[data-prompt-form]");
-const promptInput = document.querySelector<HTMLTextAreaElement>("[data-prompt]");
+const promptInput =
+  document.querySelector<HTMLTextAreaElement>("[data-prompt]");
 const responseOutput = document.querySelector<HTMLElement>("[data-response]");
 const statusOutput = document.querySelector<HTMLElement>("[data-status]");
 
@@ -42,6 +43,7 @@ form.addEventListener("submit", async (event) => {
     const response = await openai.chat.completions.create({
       messages: [{ role: "user", content: prompt }],
       model: config.model,
+      max_completion_tokens: 256,
     });
 
     const content =
@@ -71,4 +73,6 @@ form.addEventListener("submit", async (event) => {
   }
 });
 
-setStatus("Ready. Submit a prompt to see the response here and in the browser console.");
+setStatus(
+  "Ready. Submit a prompt to see the response here and in the browser console.",
+);
